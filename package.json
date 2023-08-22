@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "and": "^0.0.3",
+    "express": "^4.18.2",
+    "mysql": "^2.18.1",
+    "openapi": "^1.0.1",
+    "pg": "^8.11.3",
+    "postgres": "^3.3.5",
+    "sudo": "^1.0.3",
+    "swagger-autogen": "^2.23.5",
+    "swagger-ui-express": "^5.0.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "swagger-autogen": "node swagger.js"
+  }
+}
