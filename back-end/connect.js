@@ -39,7 +39,7 @@ function connexion_database_and_execute_query(query, req, res, values) {
       console.log("Error connecting to PostgreSQL:", err);
       res.status(500).send("Error connecting to database");
     } else {
-      console.log("Connected!");
+      console.log("Connected to database!");
       console.log(query);
       client.query(query, values, function (err, result) {
         if (err) {
@@ -62,7 +62,7 @@ app.get("/user", function (req, res) {
       console.log("Error connecting to PostgreSQL:", err);
       res.status(500).send("Error connecting to database");
     } else {
-      console.log("Connected!");
+      console.log("Connected to database!");
 
       const query = `
       CREATE TABLE IF NOT EXISTS "manage_user" (
@@ -97,6 +97,44 @@ app.post("/add_user", function (req, res) {
   RETURNING *`;
   const values = [user_name, last_name, first_name, age, email, password];
   connexion_database_and_execute_query(query, req, res, values);
+});
+app.post("/login", function (req, res) {
+  const { email, password } = req.body;
+  const query = `SELECT * FROM "manage_user" WHERE email = $1`;
+  const values = [email];
+  const client = new Client(pgConfig);
+
+  client.connect(function (err) {
+    if (err) {
+      console.log("Error connecting to PostgreSQL:", err);
+      res.status(500).send("Error connecting to database");
+    } else {
+      console.log("Connected to database!");
+      console.log(query);
+      client.query(query, values, function (err, result) {
+        if (err) {
+          console.log("Error executing query:", err);
+          res.status(500).send("Error executing query");
+        } else {
+          console.log(result.rows[0].password);
+          if (result == null) {
+            res.status(400);
+            console.log("Pas de compte ou mauvais email");
+          } else if (password != result.rows[0].password) {
+            console.log("Mauvais mot de passe");
+            res.status(400);
+          } else {
+            console.log("connecté sur le site");
+            res.status(200);
+
+            console.log(res.status);
+            res.json(result.rows);
+          }
+        }
+        client.end(); // Close the connection
+      });
+    }
+  });
 });
 
 app.delete("/delete_user/:user_id", function (req, res) {
@@ -139,4 +177,19 @@ app.get("/modification_table_aliment", function (req, res) {
   }
   const values = "";
   connexion_database_and_execute_query(query, req, res, values);
+});
+
+//requête api OFF
+const axios = require("axios");
+
+app.get("/test", (req, res, next) => {
+  console.log("Appel '/test'");
+
+  axios
+    .get("https://fr.openfoodfacts.org/categorie/pizzas.json")
+    .then((response) => {
+      const data = response.data;
+      res.json(data);
+    })
+    .catch((err) => next(err));
 });

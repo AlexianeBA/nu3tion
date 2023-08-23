@@ -46,8 +46,6 @@ function createAccount() {
 
 const signup_form = document.getElementById("validate_sign_up_form");
 signup_form.addEventListener("click", () => {
-  // Votre code de fonction à exécuter lors du clic sur le bouton
   console.log("Le bouton a été cliqué !");
   createAccount();
-  // Appelez ici la fonction que vous souhaitez exécuter
 });
