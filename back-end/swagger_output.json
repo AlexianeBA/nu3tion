@@ -150,6 +150,50 @@
           }
         }
       }
+    },
+    "/get_all_aliments": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/get_aliment_by_name": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "nom_produit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/get_aliment_by_id": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "off_id",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
     }
   }
 }

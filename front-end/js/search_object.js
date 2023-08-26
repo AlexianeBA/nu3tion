@@ -1,46 +1,40 @@
-const searchInput = document.getElementById("searchInput");
 const btnSearch = document.getElementById("btn-search");
-const resultsContainer = document.getElementById("resultsContainer");
 
 btnSearch.addEventListener("click", () => {
-  const searchTerm = searchInput.value;
-  if (searchTerm) {
-    fetchResults(searchTerm);
-  }
+  const searchInput = document.getElementById("searchInput").value;
+  window.location.href = "liste.html?search=" + encodeURIComponent(searchInput);
 });
 
-function fetchResults(searchTerm) {
-  fetch(`https://world.openfoodfacts.org/categories.json`)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Erreur de réseau: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      displayResults(data, searchTerm);
-    })
-    .catch((error) => {
-      console.error("Une erreur s'est produite:", error);
+const listeProducts = document.getElementById("listeProducts");
+
+const urlParams = new URLSearchParams(window.location.search);
+const searchInput = urlParams.get("search");
+
+fetch("http://127.0.0.1:8001/get_aliment_by_name?nom_produit=" + searchInput)
+  .then((response) => response.json())
+  .then((data) => {
+    data.forEach((element) => {
+      const card = document.createElement("div");
+      const img = document.createElement("img");
+      const title = document.createElement("p");
+      const nutriscore = document.createElement("p");
+      img.alt = element.img_produit;
+      img.src = element.img_produit;
+      title.textContent = element.nom_produit;
+      nutriscore.textContent = element.nutriscore;
+      img.classList.add("img-product-style");
+      card.classList.add("card-product");
+      card.setAttribute("id", element.off_id);
+      card.setAttribute(
+        "onclick",
+        "get_detail_product(" + element.off_id + ")"
+      );
+      title.classList.add("title-product");
+      nutriscore.classList.add("nutriscore-product");
+      card.appendChild(img);
+      card.appendChild(title);
+      card.appendChild(nutriscore);
+      listeProducts.appendChild(card);
     });
-}
-
-function displayResults(data, searchTerm) {
-  resultsContainer.innerHTML = ""; // Effacer les résultats précédents
-
-  const matchingResults = data.tags.filter((tag) =>
-    tag.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  matchingResults.forEach((result) => {
-    const resultItem = document.createElement("div");
-    resultItem.textContent = result.name;
-    resultsContainer.appendChild(resultItem);
-  });
-
-  if (matchingResults.length === 0) {
-    const noResultsMessage = document.createElement("div");
-    noResultsMessage.textContent = "Aucun résultat trouvé.";
-    resultsContainer.appendChild(noResultsMessage);
-  }
-}
+  })
+  .catch((err) => console.error(err));
