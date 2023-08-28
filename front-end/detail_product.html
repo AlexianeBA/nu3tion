@@ -20,7 +20,7 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet" />
-    <link href="css/stylePopup.css" rel="stylesheet" />
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -82,15 +82,64 @@
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div>
-                        <h2>Résultats de votre recherche</h2>
+                        <h2>Détail du produit séléctionné</h2>
 
 
                     </div>
                 </div>
             </div>
     </div>
-    <div id="listeProducts"></div>
-    <div id="product-container"></div>
+    <section id="product-details">
+        <div id="description">
+            <img id="img_produit" src="" alt="">
+            <h2 id="nom-produit"></h2>
+            <p id="marque">: </p>
+            <p id="quantite">: </p>
+            <p id="origine">: </p>
+            <p id="information">: </p>
+            <p id="categories">: </p>
+            <p id="conservation">: </p>
+
+
+
+        </div>
+        <div id="nutriscore">
+
+        </div>
+        <div id="nutritionnal-table">
+            <table>
+                <tr>
+                    <td>Kcal</td>
+                    <td id="kcal">:</td>
+                </tr>
+                <tr>
+                    <td>Matières grasses</td>
+                    <td id="matieres_grasse">:</td>
+                </tr>
+                <tr>
+                    <td>Matières grasses saturées</td>
+                    <td id="matieres_grasse_saturees">:</td>
+                </tr>
+                <tr>
+                    <td>Protéines</td>
+                    <td id="proteines">:</td>
+                </tr>
+                <tr>
+                    <td>Sel</td>
+                    <td id="sel">:</td>
+                </tr>
+                <tr>
+                    <td>Sodium</td>
+                    <td id="sodium">:</td>
+                </tr>
+                <tr>
+                    <td>Sucre</td>
+                    <td id="sucre">:</td>
+                </tr>
+            </table>
+        </div>
+
+    </section>
     </section>
 
 

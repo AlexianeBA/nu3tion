@@ -1,11 +1,12 @@
+const url = new URLSearchParams(window.location.search);
+const productId = url.get("product_id");
 function get_detail_product(id) {
   fetch("http://127.0.0.1:8001/get_aliment_by_id?off_id=" + id)
     .then((response) => response.json())
     .then((data) => {
       data.forEach((element) => {
-        const productContainer = document.getElementById("product-container");
-
-        const mainDivProduct = document.createElement("div");
+        const productDetailsContainer =
+          document.getElementById("product-details");
         const titleProduct = document.createElement("h2");
         const descriptionProduct = document.createElement("table");
         const nutriscore = document.createElement("img");
@@ -27,9 +28,7 @@ function get_detail_product(id) {
           { label: "Catégorie", value: element.categories },
           { label: "Conservation", value: element.conservation },
         ];
-        console.log(descriptionObject);
-        nutriscore.src = element.nutriscore;
-        nutriscore.alt = "Nutriscore";
+
         descriptionObject.forEach((row) => {
           const rowElement = document.createElement("tr");
           const labelCellule = document.createElement("td");
@@ -80,17 +79,14 @@ function get_detail_product(id) {
           nutritionalTable.appendChild(nutrimentsRow);
         });
 
-        mainDivProduct.appendChild(titleProduct);
-        mainDivProduct.appendChild(descriptionProduct);
-        mainDivProduct.appendChild(nutriscore);
-        mainDivProduct.appendChild(nutritionalTable);
-
-        productContainer.appendChild(mainDivProduct);
+        productDetailsContainer.appendChild(titleProduct);
+        productDetailsContainer.appendChild(descriptionProduct);
+        productDetailsContainer.appendChild(nutriscore);
+        productDetailsContainer.appendChild(nutritionalTable);
       });
     })
     .catch((err) => console.error(err));
 }
-
-// Call the function with the desired product ID
-const productID = "your_product_id_here";
-get_detail_product(productID);
+if (productId) {
+  get_detail_product(productId);
+}
