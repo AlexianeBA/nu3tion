@@ -124,7 +124,7 @@
         }
       }
     },
-    "/modification_table_aliment": {
+    "/create_table_aliment": {
       "get": {
         "description": "",
         "parameters": [
