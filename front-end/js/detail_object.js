@@ -1,5 +1,6 @@
-const url = new URLSearchParams(window.location.search);
-const productId = url.get("product_id");
+const golmon = new URLSearchParams(window.location.search);
+const pageSize = golmon.get("product");
+get_detail_product(pageSize);
 function get_detail_product(id) {
   fetch("http://127.0.0.1:8001/get_aliment_by_id?off_id=" + id)
     .then((response) => response.json())
@@ -9,7 +10,7 @@ function get_detail_product(id) {
           document.getElementById("product-details");
         const titleProduct = document.createElement("h2");
         const descriptionProduct = document.createElement("table");
-        const nutriscore = document.createElement("img");
+        const nutriscore = document.createElement("p");
         const nutritionalTable = document.createElement("table");
 
         titleProduct.textContent =
@@ -18,7 +19,10 @@ function get_detail_product(id) {
           element.marque +
           " - " +
           element.quantite_produit;
-
+        const descrp = document.getElementById("description");
+        const etoile = document.createElement("i");
+        etoile.classList.add("fa-regular", "fa-star");
+        descrp.appendChild(etoile);
         const descriptionObject = [
           { label: "Nom du produit", value: element.nom_produit },
           { label: "Marque", value: element.marque },
@@ -42,8 +46,7 @@ function get_detail_product(id) {
           descriptionProduct.appendChild(rowElement);
         });
 
-        nutriscore.src = element.nutriscore;
-        nutriscore.alt = "Nutriscore";
+        nutriscore.textContent = element.nutriscore;
 
         const tableHeader = ["Nutriment", "Quantité"];
         const headerRow = document.createElement("tr");
@@ -65,7 +68,7 @@ function get_detail_product(id) {
           { label: "proteines", value: element.proteines },
           { label: "sel", value: element.sel },
           { label: "sodium", value: element.sodium },
-          { label: "sucre", value: element.sucre },
+          { label: "Sucre : ", value: element.sucre },
         ];
 
         nutriments.forEach((nutriment) => {
@@ -86,7 +89,4 @@ function get_detail_product(id) {
       });
     })
     .catch((err) => console.error(err));
-}
-if (productId) {
-  get_detail_product(productId);
 }
