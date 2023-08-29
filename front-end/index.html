@@ -19,7 +19,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles.css" rel="stylesheet" />
-    s
+    <link href="css/style.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -33,13 +33,7 @@
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 input-style">
-                <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search"
-                    id="searchInput">
-                <button type="button" id="btn-search">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
+
 
 
 
@@ -80,8 +74,14 @@
                 </div>
                 <div class="col-lg-8 align-self-baseline">
                     <p class="text-white-75 mb-5">Ici vous retrouverez tout ce dont vous avez besoin pour mener un train
-                        de vie plus sain avec votre alimentation. </p>
-                    <a class="btn btn-primary btn-xl" href="#about">En savoir plus</a>
+                        de vie plus sain avec votre alimentation.</p>
+                    <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 input-style">
+                        <input type="search" class="form-control form-control-dark"
+                            placeholder="Faites votre recherche ici" aria-label="Search" id="searchInput">
+                        <button type="button" id="btn-search">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -156,17 +156,21 @@
                         </div>
                         <div class="d-flex flex-column text-center">
                             <form>
-                                <div class="form-group"> <input type="email" class="form-control" id="signin-email"
-                                        placeholder="Adresse mail..."> </div>
-                                <div class="form-group"> <input type="password" class="form-control"
-                                        id="signin-password" placeholder="Mot de passe..."> </div>
+                                <div class="form-group">
+                                    <input type="email" class="form-control" id="signin-email"
+                                        placeholder="Adresse mail...">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" id="signin-password"
+                                        placeholder="Mot de passe...">
+                                </div>
+
+                                <button id="link-forget-password" type="button">Mot de passe oublié ?</button>
+
                                 <button id="btn-connexion" type="button"
                                     class="btn btn-info btn-block btn-round">Connexion</button>
-
-
                                 <p id="login-message" style="display: none; color: green;">Vous êtes connecté!</p>
                             </form>
-
                         </div>
                     </div>
 

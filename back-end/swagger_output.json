@@ -124,7 +124,7 @@
         }
       }
     },
-    "/modification_table_aliment": {
+    "/create_table_aliment": {
       "get": {
         "description": "",
         "parameters": [
@@ -186,6 +186,33 @@
             "name": "off_id",
             "in": "query",
             "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/changer_mot_de_passe": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "example": "any"
+                },
+                "nouveau_mot_de_passe": {
+                  "example": "any"
+                }
+              }
+            }
           }
         ],
         "responses": {

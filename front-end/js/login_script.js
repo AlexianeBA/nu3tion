@@ -15,6 +15,7 @@ function login() {
     .then((response) => {
       console.log(response);
       if (response.status === 200) {
+        document.getElementById("login-message").style.display = "block";
         window.location.href = "logout.html";
         return response.json();
       } else {
