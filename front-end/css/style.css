@@ -1,31 +1,4 @@
-#listeProducts {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(5, 1fr);
-  grid-column-gap: 20px;
-  grid-row-gap: 10px;
-}
-.img-product-style {
-  height: 150px;
-  margin-left: 20px;
-  margin-top: 20px;
-  object-fit: contain;
-}
-.card-product {
-  width: 100%;
-  height: 100%;
-  border-radius: 9px;
-  margin-top: 10px;
-  margin-left: 10px;
-  box-shadow: 6px 6px 25px rgba(0, 0, 0, 0.5);
-}
-.title-product {
-  margin-left: 15px;
-}
-.nutriscore-product {
-  margin-left: 15px;
-}
 .input-style {
   display: flex;
-  flex-directio: row;
+  flex-direction: row;
 }

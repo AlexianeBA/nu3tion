@@ -295,3 +295,24 @@ app.get("/get_aliment_by_id", (req, res) => {
   const values = [searchId];
   connexion_database_and_execute_query(query, req, res, values);
 });
+
+//Modifier le mot de passe
+const createPasswordChangeTableQuery = `
+CREATE TABLE IF NOT EXISTS password_changes (
+  id SERIAL PRIMARY KEY,
+  user_id INT REFERENCES manage_user(id),
+  new_password VARCHAR(50) NOT NULL,
+  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+`;
+
+app.post("/changer_mot_de_passe", function (req, res) {
+  const { user_id, nouveau_mot_de_passe } = req.body;
+  const query = `
+    INSERT INTO password_changes (user_id, new_password)
+    VALUES ($1, $2)
+    RETURNING *`;
+  const values = [user_id, nouveau_mot_de_passe];
+
+  connexion_database_and_execute_query(query, req, res, values);
+});
