@@ -297,22 +297,38 @@ app.get("/get_aliment_by_id", (req, res) => {
 });
 
 //Modifier le mot de passe
-const createPasswordChangeTableQuery = `
-CREATE TABLE IF NOT EXISTS password_changes (
-  id SERIAL PRIMARY KEY,
-  user_id INT REFERENCES manage_user(id),
-  new_password VARCHAR(50) NOT NULL,
-  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-`;
 
-app.post("/changer_mot_de_passe", function (req, res) {
-  const { user_id, nouveau_mot_de_passe } = req.body;
-  const query = `
-    INSERT INTO password_changes (user_id, new_password)
-    VALUES ($1, $2)
-    RETURNING *`;
-  const values = [user_id, nouveau_mot_de_passe];
+app.post("/change_password/:email", function (req, res) {
+  const { email } = req.params;
+  const { nouveau_mot_de_passe } = req.body;
 
-  connexion_database_and_execute_query(query, req, res, values);
+  const selectQuery = `
+    SELECT * FROM manage_user WHERE email = $1;
+  `;
+
+  const updateQuery = `
+    UPDATE manage_user
+    SET password = $1
+    WHERE email = $2;
+  `;
+
+  connexion_database_and_execute_query(selectQuery, req, res, [email])
+    .then((result) => {
+      if (result.rows.length === 0) {
+        res.status(404).send("Utilisateur non trouvé");
+      } else {
+        // Mettre à jour le mot de passe
+        return connexion_database_and_execute_query(updateQuery, req, res, [
+          nouveau_mot_de_passe,
+          email,
+        ]);
+      }
+    })
+    .then(() => {
+      res.status(200).send("Mot de passe mis à jour avec succès");
+    })
+    .catch((error) => {
+      console.error("Erreur lors de la mise à jour du mot de passe :", error);
+      res.status(500).send("Erreur lors de la mise à jour du mot de passe");
+    });
 });

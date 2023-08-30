@@ -1,7 +1,11 @@
+body {
+  margin: 50px;
+}
+
 .card-product {
   background: white;
   width: 300px;
-  height: 400px;
+  height: 440px;
   display: inline-block;
   margin: 20px;
   border-style: none;
@@ -26,4 +30,34 @@
 .title-product {
   height: 50px;
   font-size: 15px;
+}
+.nutriscore-A {
+  background-color: #0e8648;
+  color: white;
+  width: 20px;
+  border-radius: 10px;
+}
+.nutriscore-B {
+  background-color: #6fc22b;
+  color: white;
+  width: 20px;
+  border-radius: 10px;
+}
+.nutriscore-C {
+  background-color: #f3c107;
+  color: white;
+  width: 20px;
+  border-radius: 10px;
+}
+.nutriscore-D {
+  background-color: #ec6e15;
+  color: white;
+  width: 20px;
+  border-radius: 10px;
+}
+.nutriscore-E {
+  background-color: #e82f1f;
+  color: white;
+  width: 20px;
+  border-radius: 10px;
 }
