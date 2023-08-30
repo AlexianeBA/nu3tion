@@ -195,19 +195,22 @@
         }
       }
     },
-    "/changer_mot_de_passe": {
+    "/change_password/{email}": {
       "post": {
         "description": "",
         "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
-                "user_id": {
-                  "example": "any"
-                },
                 "nouveau_mot_de_passe": {
                   "example": "any"
                 }
@@ -216,8 +219,14 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
