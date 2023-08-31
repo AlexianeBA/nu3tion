@@ -33,10 +33,10 @@ function login() {
       console.log(error);
     });
 }
+var loginModal = document.getElementById("loginModal");
 
 const connected = document.getElementById("btn-connexion");
 connected.addEventListener("click", () => {
-  console.log("bouton cliqué");
   login();
 });
 

@@ -58,9 +58,29 @@
 #description {
   background-color: #f2f2f2;
 }
-.details-product {
+/* .details-product {
   background-color: #f2e9d9;
   border-radius: 10px;
   margin: 20px;
   padding: 15px;
+} */
+.favorite-filled {
+  color: gold; /* Ou toute autre couleur que vous souhaitez utiliser */
+}
+.div-details {
+  display: flex;
+  flex-direction: row;
+  background-color: #f2e9d9;
+  border-radius: 10px;
+  margin: 30px;
+  padding: 15px;
+}
+.img-product {
+  margin-right: 20px;
+}
+.nutriscore-container {
+  margin: 30px;
+}
+.product-table {
+  margin: 30px;
 }

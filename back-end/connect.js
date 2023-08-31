@@ -101,7 +101,7 @@ app.post("/add_user", function (req, res) {
 
 app.post("/login", function (req, res) {
   const { email, password } = req.body;
-  const query = `SELECT * FROM "manage_user" WHERE email = $1`;
+  const query = `SELECT * FROM manage_user WHERE email = $1`;
   const values = [email];
   const client = new Client(pgConfig);
 
@@ -295,16 +295,19 @@ app.get("/get_aliment_by_id", (req, res) => {
   const values = [searchId];
   connexion_database_and_execute_query(query, req, res, values);
 });
+//Favoris
+app.post("/favorite_product/:off_id", function (req, res) {
+  const off_id = req.params.off_id;
+  const query = `SELECT * FROM "aliments" WHERE aliments.off_id = $1;`;
+  const values = [off_id];
+
+  connexion_database_and_execute_query(query, values, res, req);
+});
 
 //Modifier le mot de passe
-
 app.post("/change_password/:email", function (req, res) {
   const { email } = req.params;
   const { nouveau_mot_de_passe } = req.body;
-
-  const selectQuery = `
-    SELECT * FROM manage_user WHERE email = $1;
-  `;
 
   const updateQuery = `
     UPDATE manage_user
@@ -312,23 +315,10 @@ app.post("/change_password/:email", function (req, res) {
     WHERE email = $2;
   `;
 
-  connexion_database_and_execute_query(selectQuery, req, res, [email])
-    .then((result) => {
-      if (result.rows.length === 0) {
-        res.status(404).send("Utilisateur non trouvé");
-      } else {
-        // Mettre à jour le mot de passe
-        return connexion_database_and_execute_query(updateQuery, req, res, [
-          nouveau_mot_de_passe,
-          email,
-        ]);
-      }
-    })
-    .then(() => {
-      res.status(200).send("Mot de passe mis à jour avec succès");
-    })
-    .catch((error) => {
-      console.error("Erreur lors de la mise à jour du mot de passe :", error);
-      res.status(500).send("Erreur lors de la mise à jour du mot de passe");
-    });
+  connexion_database_and_execute_query(
+    updateQuery,
+    [nouveau_mot_de_passe, email],
+    res,
+    req
+  );
 });

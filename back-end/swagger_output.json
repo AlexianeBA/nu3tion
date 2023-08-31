@@ -195,6 +195,24 @@
         }
       }
     },
+    "/favorite_product/{off_id}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "off_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/change_password/{email}": {
       "post": {
         "description": "",
@@ -219,14 +237,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
+          "default": {
+            "description": ""
           }
         }
       }

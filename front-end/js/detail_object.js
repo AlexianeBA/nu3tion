@@ -6,21 +6,19 @@ function get_detail_product(id) {
     .then((response) => response.json())
     .then((data) => {
       data.forEach((element) => {
+        const divDetailsProduct = document.createElement("div");
+        divDetailsProduct.classList.add("div-details");
         const productDetailsContainer =
           document.getElementById("product-details");
         const titleProduct = document.createElement("h2");
-
+        const nutriscoreContainer = document.createElement("div");
+        nutriscoreContainer.classList.add("nutriscore-container");
         const nutriscoreA = document.createElement("p");
         const nutriscoreB = document.createElement("p");
         const nutriscoreC = document.createElement("p");
         const nutriscoreD = document.createElement("p");
         const nutriscoreE = document.createElement("p");
         const nutritionalTable = document.createElement("table");
-        nutriscoreA.classList.add("nutriscore-A");
-        nutriscoreB.classList.add("nutriscore-B");
-        nutriscoreC.classList.add("nutriscore-C");
-        nutriscoreD.classList.add("nutriscore-D");
-        nutriscoreE.classList.add("nutriscore-E");
 
         titleProduct.textContent =
           element.nom_produit +
@@ -28,9 +26,25 @@ function get_detail_product(id) {
           element.marque +
           " - " +
           element.quantite_produit;
+        const imgProduct = document.createElement("img");
+        imgProduct.src = element.img_produit;
+        imgProduct.classList.add("img-product");
 
-        const etoile = document.createElement("i");
-        etoile.classList.add("fa-regular", "fa-star");
+        const etoile = document.createElement("button");
+        etoile.classList.add("fa-regular", "fa-star", "favorite-button");
+        titleProduct.appendChild(etoile);
+        let isFavorite = false;
+
+        etoile.addEventListener("click", function () {
+          if (!isFavorite) {
+            alert("Produit ajouté aux favoris");
+          } else {
+            alert("Produit supprimé de vos favoris");
+          }
+          isFavorite = !isFavorite;
+          etoile.classList.toggle("favorite-filled");
+        });
+
         const detailsProduct = document.createElement("div");
         const nomProduit = document.createElement("p");
         const marque = document.createElement("p");
@@ -39,17 +53,24 @@ function get_detail_product(id) {
         const information = document.createElement("p");
         const categorie = document.createElement("p");
         const conservation = document.createElement("p");
-        nomProduit.textContent = "Nom du produit: " + element.nom_produit;
-        marque.textContent = "Marque du produit: " + element.marque;
-        quantite.textContent =
-          "Quantité du produit: " + element.quantite_produit;
-        origine.textContent = "Origine du produit: " + element.origine;
-        information.textContent =
-          "Informations complémentaires: " + element.information;
-        categorie.textContent = "Catégorie du produit: " + element.categories;
-        conservation.textContent =
-          "Conseil de conservation: " + element.conservation;
+        nomProduit.innerHTML =
+          "<strong>Nom du produit:</strong> " + element.nom_produit;
+        marque.innerHTML =
+          "<strong>Marque du produit: </strong> " + element.marque;
+        quantite.innerHTML =
+          "<strong>Quantité du produit: </strong>" + element.quantite_produit;
+        origine.innerHTML =
+          "<strong>Origine du produit: </strong>" + element.origine;
+        information.innerHTML =
+          "<strong>Informations complémentaires: </strong>" +
+          element.information;
+        categorie.innerHTML =
+          "<strong>Catégorie du produit: </strong>" + element.categories;
+        conservation.innerHTML =
+          "<strong>Conseil de conservation: </strong>" + element.conservation;
         detailsProduct.classList.add("details-product");
+        detailsProduct.appendChild(titleProduct);
+
         detailsProduct.appendChild(nomProduit);
         detailsProduct.appendChild(marque);
         detailsProduct.appendChild(quantite);
@@ -58,7 +79,7 @@ function get_detail_product(id) {
         detailsProduct.appendChild(categorie);
         detailsProduct.appendChild(conservation);
 
-        nutriscore.textContent =
+        nutriscoreContainer.textContent =
           "Nutriscore: " + element.nutriscore.toUpperCase();
         var nutriscoreElement = null;
 
@@ -82,7 +103,16 @@ function get_detail_product(id) {
         if (nutriscoreElement) {
           nutriscoreElement.style.display = "block";
         }
-
+        nutriscoreContainer.appendChild(nutriscoreA);
+        nutriscoreContainer.appendChild(nutriscoreB);
+        nutriscoreContainer.appendChild(nutriscoreC);
+        nutriscoreContainer.appendChild(nutriscoreD);
+        nutriscoreContainer.appendChild(nutriscoreE);
+        nutriscoreA.classList.add("nutriscore-A");
+        nutriscoreB.classList.add("nutriscore-B");
+        nutriscoreC.classList.add("nutriscore-C");
+        nutriscoreD.classList.add("nutriscore-D");
+        nutriscoreE.classList.add("nutriscore-E");
         const tableHeader = ["Nutriment", "Quantités en grammes"];
         const headerRow = document.createElement("tr");
         tableHeader.forEach((headerText) => {
@@ -117,11 +147,12 @@ function get_detail_product(id) {
           nutritionalTable.appendChild(nutrimentsRow);
         });
         nutritionalTable.classList.add("product-table");
-        productDetailsContainer.appendChild(titleProduct);
-        productDetailsContainer.appendChild(etoile);
-        productDetailsContainer.appendChild(detailsProduct);
-
-        productDetailsContainer.appendChild(nutriscore);
+        // productDetailsContainer.appendChild(titleProduct);
+        // productDetailsContainer.appendChild(etoile);
+        divDetailsProduct.appendChild(imgProduct);
+        divDetailsProduct.appendChild(detailsProduct);
+        productDetailsContainer.appendChild(divDetailsProduct);
+        productDetailsContainer.appendChild(nutriscoreContainer);
         productDetailsContainer.appendChild(nutritionalTable);
       });
     })
