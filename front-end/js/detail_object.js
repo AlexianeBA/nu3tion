@@ -30,18 +30,15 @@ function get_detail_product(id) {
         imgProduct.src = element.img_produit;
         imgProduct.classList.add("img-product");
 
-        const etoile = document.createElement("button");
+        const etoile = document.createElement("i");
+
         etoile.classList.add("fa-regular", "fa-star", "favorite-button");
         titleProduct.appendChild(etoile);
         let isFavorite = false;
 
         etoile.addEventListener("click", function () {
-          if (!isFavorite) {
-            alert("Produit ajouté aux favoris");
-          } else {
-            alert("Produit supprimé de vos favoris");
-          }
           isFavorite = !isFavorite;
+          etoile.classList.toggle("fa-solid");
           etoile.classList.toggle("favorite-filled");
         });
 

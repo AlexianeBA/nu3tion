@@ -107,33 +107,35 @@ app.post("/login", function (req, res) {
 
   client.connect(function (err) {
     if (err) {
-      console.log("Error connecting to PostgreSQL:", err);
-      res.status(500).send("Error connecting to database");
-    } else {
-      console.log("Connected to database!");
-      console.log(query);
-      client.query(query, values, function (err, result) {
-        if (err) {
-          console.log("Error executing query:", err);
-          res.status(500).send("Error executing query");
-        } else {
-          console.log(result.rows[0].password);
-          if (result == null) {
-            res.status(400);
-            console.log("Pas de compte ou mauvais email");
-          } else if (password != result.rows[0].password) {
-            console.log("Mauvais mot de passe");
-            res.status(400);
-          } else {
-            console.log("connecté sur le site");
-            res.status(200);
-
-            console.log(res.status);
-          }
-        }
-        client.end(); // Close the connection
-      });
+      console.error("Error connecting to PostgreSQL:", err);
+      return res.status(500).send("Error connecting to database");
     }
+
+    console.log("Connected to database!");
+
+    client.query(query, values, function (err, result) {
+      if (err) {
+        console.error("Error executing query:", err);
+        client.end();
+        return res.status(500).send("Error executing query");
+      }
+
+      if (result.rows.length === 0) {
+        console.log("Pas de compte ou mauvais email");
+        client.end();
+        return res.status(400).send("Pas de compte ou mauvais email");
+      }
+
+      if (password !== result.rows[0].password) {
+        console.log("Mauvais mot de passe");
+        client.end();
+        return res.status(400).send("Mauvais mot de passe");
+      }
+
+      console.log("Connecté sur le site");
+      client.end();
+      return res.status(200).send("Connecté sur le site");
+    });
   });
 });
 

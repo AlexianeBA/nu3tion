@@ -1,3 +1,7 @@
+const btn_login = document.getElementById("btn-connexion");
+btn_login.addEventListener("click", function () {
+  login();
+});
 function login() {
   var email = document.getElementById("signin-email").value;
   var password = document.getElementById("signin-password").value;
@@ -6,6 +10,7 @@ function login() {
     email: email,
     password: password,
   };
+  console.log(formData);
 
   fetch("http://127.0.0.1:8001/login", {
     method: "POST",
@@ -33,17 +38,3 @@ function login() {
       console.log(error);
     });
 }
-var loginModal = document.getElementById("loginModal");
-
-const connected = document.getElementById("btn-connexion");
-connected.addEventListener("click", () => {
-  login();
-});
-
-function logout() {
-  document.cookie =
-    "autLogin=; expires=Thu, 01 Jan 1970 00:00:00 UTC; secure; path=/;";
-  window.location.href = "index.html";
-}
-const logoutButton = document.getElementById("logout-btn");
-logoutButton.addEventListener("click", logout);

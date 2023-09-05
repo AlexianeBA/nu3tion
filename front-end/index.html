@@ -42,9 +42,7 @@
                 <ul class="navbar-nav ms-auto my-2 my-lg-0">
                     <li class="nav-item"><a class="nav-link" href="#about">A propos</a></li>
                     <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-                    <!-- <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li> -->
-                    <!-- <div class="nav-item">
-                        <div class="container nav-link"> -->
+
                     <li class="nav-item"><a class="nav-link" href="" data-toggle="modal" data-target="#loginModal">Me
                             connecter</a>
                     </li>
@@ -158,11 +156,11 @@
                             <form>
                                 <div class="form-group">
                                     <input type="email" class="form-control" id="signin-email"
-                                        placeholder="Adresse mail...">
+                                        placeholder="Adresse mail..." autocomplete="email">
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control" id="signin-password"
-                                        placeholder="Mot de passe...">
+                                        placeholder="Mot de passe" autocomplete="current-password">
                                 </div>
 
                                 <button id="link-forget-password" type="button">Mot de passe oublié ?</button>
@@ -213,11 +211,12 @@
                                 <div class="form-row">
                                     <div class="col">
                                         <input type="email" id="signup-email" class="form-control" id="inputEmail4"
-                                            placeholder="Adresse email">
+                                            placeholder="Adresse email" autocomplete="username">
                                     </div>
                                     <div class="col">
                                         <input type="password" id="signup-password" class="form-control"
-                                            id="inputPassword4" placeholder="Mot de passe">
+                                            id="inputPassword4" placeholder="Mot de passe"
+                                            autocomplete="current-password">
                                     </div>
                                 </div>
                                 <div class="form-group form-check">
