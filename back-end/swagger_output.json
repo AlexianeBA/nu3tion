@@ -195,12 +195,76 @@
         }
       }
     },
-    "/favorite_product/{off_id}": {
+    "/favorite_table": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/get_all_favorite_by_user/{id_user}": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "off_id",
+            "name": "id_user",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/add_favorite_to_user": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id_user": {
+                  "example": "any"
+                },
+                "id_aliment": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/delete_favorite_from_user/{id_user}/{id_aliment}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id_user",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_aliment",
             "in": "path",
             "required": true,
             "type": "string"

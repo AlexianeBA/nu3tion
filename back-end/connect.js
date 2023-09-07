@@ -101,7 +101,7 @@ app.post("/add_user", function (req, res) {
 
 app.post("/login", function (req, res) {
   const { email, password } = req.body;
-  const query = `SELECT * FROM manage_user WHERE email = $1`;
+  const query = `SELECT id, password FROM manage_user WHERE email = $1`;
   const values = [email];
   const client = new Client(pgConfig);
 
@@ -126,15 +126,19 @@ app.post("/login", function (req, res) {
         return res.status(400).send("Pas de compte ou mauvais email");
       }
 
-      if (password !== result.rows[0].password) {
+      const Password = result.rows[0].password;
+
+      if (password !== Password) {
         console.log("Mauvais mot de passe");
         client.end();
         return res.status(400).send("Mauvais mot de passe");
       }
 
+      const userId = result.rows[0].id;
+
       console.log("Connecté sur le site");
       client.end();
-      return res.status(200).send("Connecté sur le site");
+      return res.status(200).send(userId.toString());
     });
   });
 });
@@ -298,14 +302,65 @@ app.get("/get_aliment_by_id", (req, res) => {
   connexion_database_and_execute_query(query, req, res, values);
 });
 //Favoris
-app.get("/favorite_product/:off_id", function (req, res) {
-  const off_id = req.params.off_id;
-  const query = `SELECT * FROM "aliments" WHERE aliments.off_id = $1;`;
-  const values = [off_id];
+app.get("/favorite_table", function (req, res) {
+  const client = new Client(pgConfig);
+  client.connect(function (err) {
+    if (err) {
+      console.log("Error connecting to PostgreSQL:", err);
+      res.status(500).send("Error connecting to database");
+    } else {
+      console.log("Connected to database!");
 
-  connexion_database_and_execute_query(query, req, res, values);
+      const query = `
+  CREATE TABLE IF NOT EXISTS favorite (
+    id SERIAL PRIMARY KEY,
+    id_user INT,
+    id_aliment INT,
+    FOREIGN KEY (id_user) REFERENCES manage_user(id),
+    FOREIGN KEY (id_aliment) REFERENCES aliments(id)
+  );
+`;
+      client.query(query, function (err, result) {
+        if (err) {
+          console.log("Error executing query:", err);
+          res.status(500).send("Error executing query");
+        } else {
+          res.json(result.rows);
+        }
+        client.end(); // Close the connection
+      });
+    }
+  });
 });
 
+//endpoint get all favorite by user
+app.get("/get_all_favorite_by_user/:id_user", function (req, res) {
+  const id_user = req.params.id_user;
+
+  const query = `SELECT * FROM favorite INNER JOIN aliments ON favorite.id_aliment = aliments.id WHERE favorite.id_user=$1;`;
+  const values = [id_user];
+  connexion_database_and_execute_query(query, req, res, values);
+});
+//add favorite to user
+app.post("/add_favorite_to_user", function (req, res) {
+  const { id_user, id_aliment } = req.body;
+  const query = `INSERT INTO favorite (id_user, id_aliment) VALUES ($1, $2)`;
+  const values = [id_user, id_aliment];
+  connexion_database_and_execute_query(query, req, res, values);
+});
+//delete favorite from user
+app.delete(
+  "/delete_favorite_from_user/:id_user/:id_aliment",
+  function (req, res) {
+    const id_user = req.params.id_user;
+    const id_aliment = req.params.id_aliment;
+    const query = `
+  DELETE FROM favorite WHERE id_user = $1 AND id_aliment = $2
+`;
+    const values = [id_user, id_aliment];
+    connexion_database_and_execute_query(query, req, res, values);
+  }
+);
 //Modifier le mot de passe
 app.post("/change_password/:email", function (req, res) {
   const { email } = req.params;

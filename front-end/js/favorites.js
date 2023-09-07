@@ -1,6 +1,11 @@
-function getFavoriteProducts(id) {
-  fetch("http://127.0.0.1:8001/favorite_product?off_id=" + id)
-    .then((response) => response.json())
+function getFavoriteProducts(id_user) {
+  fetch("http://127.0.0.1:8001/get_all_favorite_by_user/" + id_user)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
+      }
+      return response.json();
+    })
     .then((data) => {
       if (data.success) {
         const favoriteProducts = data.products;
@@ -23,7 +28,7 @@ function getFavoriteProducts(id) {
       }
     })
     .catch((error) => {
-      console.error(error);
+      console.error("Erreur de fetch :", error);
     });
 }
 

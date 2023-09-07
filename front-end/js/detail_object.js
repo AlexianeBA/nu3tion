@@ -36,6 +36,7 @@ function get_detail_product(id) {
         titleProduct.appendChild(etoile);
         etoile.title = "Cliquez pour ajouter aux favoris";
         let isFavorite = false;
+        etoile.dataset.productID = element.id;
 
         etoile.addEventListener("click", function () {
           isFavorite = !isFavorite;
