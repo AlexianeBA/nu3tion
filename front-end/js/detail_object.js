@@ -34,6 +34,7 @@ function get_detail_product(id) {
 
         etoile.classList.add("fa-regular", "fa-star", "favorite-button");
         titleProduct.appendChild(etoile);
+        etoile.title = "Cliquez pour ajouter aux favoris";
         let isFavorite = false;
 
         etoile.addEventListener("click", function () {
@@ -144,8 +145,7 @@ function get_detail_product(id) {
           nutritionalTable.appendChild(nutrimentsRow);
         });
         nutritionalTable.classList.add("product-table");
-        // productDetailsContainer.appendChild(titleProduct);
-        // productDetailsContainer.appendChild(etoile);
+
         divDetailsProduct.appendChild(imgProduct);
         divDetailsProduct.appendChild(detailsProduct);
         productDetailsContainer.appendChild(divDetailsProduct);

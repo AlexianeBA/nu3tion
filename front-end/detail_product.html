@@ -38,13 +38,7 @@
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                     aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 input-style">
-                    <input type="search" class="form-control form-control-dark" placeholder="Search..."
-                        aria-label="Search" id="searchInput">
-                    <button type="button" id="btn-search">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
+
 
 
 
@@ -53,17 +47,17 @@
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
                         <li class="nav-item"><a class="nav-link" href="#about">A propos</a></li>
                         <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-                        <!-- <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li> -->
-                        <!-- <div class="nav-item">
-                            <div class="container nav-link"> -->
-                        <li class="nav-item"><a class="nav-link" href="" data-toggle="modal"
+
+                        <li class="nav-item" id="login-connexion"><a class="nav-link" href="" data-toggle="modal"
                                 data-target="#loginModal">Me
                                 connecter</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="" data-toggle="modal"
+                        <li class="nav-item" id="login-create-account"><a class="nav-link" href="" data-toggle="modal"
                                 data-target="#createAccountForm" id="create_user_link">Créer un compte</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="" data-toggle="modal" data-target="#logout"
+                        <li class="nav-item" id="login-create-account"><a class="nav-link" href="favoris.html"
+                                id="favorite-page" style="display: none;">Favoris</a></li>
+                        <li class=" nav-item"><a class="nav-link" href="" data-toggle="modal" data-target="#logout"
                                 id="logout-btn" style="display: none;">Déconnexion</a>
                         </li>
 
@@ -206,7 +200,8 @@
     <footer class="bg-light py-5">
         <div class="container px-4 px-lg-5">
             <div class="small text-center text-muted">Copyright &copy; 2023 - Company Name</div>
-            <button><i class="fa-regular fa-star favorite-button"></i></button>
+
+
         </div>
     </footer>
     <!-- Bootstrap core JS-->

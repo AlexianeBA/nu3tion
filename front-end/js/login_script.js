@@ -2,6 +2,7 @@ const btn_login = document.getElementById("btn-connexion");
 btn_login.addEventListener("click", function () {
   login();
 });
+
 function login() {
   var email = document.getElementById("signin-email").value;
   var password = document.getElementById("signin-password").value;
@@ -20,8 +21,12 @@ function login() {
     .then((response) => {
       console.log(response);
       if (response.status === 200) {
+        document.getElementById("login-connexion").style.display = "none";
+        document.getElementById("login-create-account").style.display = "none";
+        document.getElementById("logout-btn").style.display = "block";
         document.getElementById("login-message").style.display = "block";
-        window.location.href = "logout.html";
+        document.getElementById("favorite-page").style.display = "block";
+
         return response.json();
       } else {
         const invalid = "Nom d'utilisateur et/ou mot de passe non valide";
@@ -38,3 +43,15 @@ function login() {
       console.log(error);
     });
 }
+
+function logout() {
+  document.cookie =
+    "autLogin=; expires=Thu, 01 Jan 1970 00:00:00 UTC; secure; path=/;";
+  document.getElementById("login-connexion").style.display = "block";
+  document.getElementById("login-create-account").style.display = "block";
+  document.getElementById("logout-btn").style.display = "none";
+  document.getElementById("login-message").style.display = "none";
+  document.getElementById("favorite-page").style.display = "none";
+}
+const logoutButton = document.getElementById("logout-btn");
+logoutButton.addEventListener("click", logout);

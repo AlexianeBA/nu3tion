@@ -196,7 +196,7 @@
       }
     },
     "/favorite_product/{off_id}": {
-      "post": {
+      "get": {
         "description": "",
         "parameters": [
           {

@@ -298,12 +298,12 @@ app.get("/get_aliment_by_id", (req, res) => {
   connexion_database_and_execute_query(query, req, res, values);
 });
 //Favoris
-app.post("/favorite_product/:off_id", function (req, res) {
+app.get("/favorite_product/:off_id", function (req, res) {
   const off_id = req.params.off_id;
   const query = `SELECT * FROM "aliments" WHERE aliments.off_id = $1;`;
   const values = [off_id];
 
-  connexion_database_and_execute_query(query, values, res, req);
+  connexion_database_and_execute_query(query, req, res, values);
 });
 
 //Modifier le mot de passe
