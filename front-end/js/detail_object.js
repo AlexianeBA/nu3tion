@@ -30,6 +30,7 @@ function get_detail_product(id) {
         imgProduct.src = element.img_produit;
         imgProduct.classList.add("img-product");
 
+        // FAVORIS
         const etoile = document.createElement("i");
 
         etoile.classList.add("fa-regular", "fa-star", "favorite-button");
@@ -39,10 +40,88 @@ function get_detail_product(id) {
         etoile.dataset.productID = element.id;
 
         etoile.addEventListener("click", function () {
+          const productID = element.id;
+          if (isFavorite) {
+            removeFavorite(productID);
+          } else {
+            addToFavorites(productID);
+          }
+
           isFavorite = !isFavorite;
           etoile.classList.toggle("fa-solid");
           etoile.classList.toggle("favorite-filled");
         });
+        function getCookie(cookieName) {
+          const cookies = document.cookie.split("; ");
+          for (const cookie of cookies) {
+            const [name, value] = cookie.split("=");
+            if (name === cookieName) {
+              return value;
+            }
+          }
+          return null;
+        }
+
+        //AJOUT AUX FAVORIS
+        function addToFavorites(productID, productFavoriteDiv) {
+          const userIdCookie = getCookie("user_id");
+
+          if (userIdCookie) {
+            fetch("http://127.0.0.1:8001/add_favorite_to_user", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                id_user: userIdCookie,
+                id_aliment: productID,
+              }),
+            })
+              .then((response) => {
+                if (response.ok) {
+                  console.log("Produit ajouté aux favoris avec succès !");
+                } else {
+                  console.error("Erreur lors de l'ajout aux favoris");
+                }
+              })
+              .catch((error) => {
+                console.error("Erreur lors de la requête: " + error);
+              });
+          } else {
+            console.error(
+              "L'ID de l'utilisateur n'a pas été trouvé dans le cookie."
+            );
+          }
+        }
+
+        //SUPPRIMER DES FAVORIS
+        function removeFavorite(productID) {
+          const userIdCookie = getCookie("user_id");
+
+          if (userIdCookie) {
+            fetch(
+              `http://127.0.0.1:8001/delete_favorite_from_user/${userIdCookie}/${productID}`,
+              {
+                method: "DELETE",
+              }
+            )
+              .then((response) => {
+                if (response.ok) {
+                  console.log("Produit supprimé des favoris avec succès !");
+                  window.location.reload();
+                } else {
+                  console.error("Erreur lors de la suppression des favoris");
+                }
+              })
+              .catch((error) => {
+                console.error("Erreur lors de la requête  : " + error);
+              });
+          } else {
+            console.error(
+              "L'ID de l'utilisateur n'a pas été trouvé dans le cookie."
+            );
+          }
+        }
 
         const detailsProduct = document.createElement("div");
         const nomProduit = document.createElement("p");

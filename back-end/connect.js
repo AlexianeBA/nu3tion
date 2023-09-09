@@ -317,7 +317,8 @@ app.get("/favorite_table", function (req, res) {
     id_user INT,
     id_aliment INT,
     FOREIGN KEY (id_user) REFERENCES manage_user(id),
-    FOREIGN KEY (id_aliment) REFERENCES aliments(id)
+    FOREIGN KEY (id_aliment) REFERENCES aliments(id),
+    nom_produit VARCHAR(50000) DEFAULT(NULL)
   );
 `;
       client.query(query, function (err, result) {
