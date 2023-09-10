@@ -15,16 +15,21 @@ function displayFavorite(userID, productFavoriteDiv) {
 
       data.forEach((favorite) => {
         const productDiv = document.createElement("div");
-
+        const bin = document.createElement("i");
+        bin.setAttribute("id", favorite.id);
+        bin.classList.add("fa-solid");
+        bin.classList.add("fa-trash-can");
         const productName = document.createElement("p");
         productName.textContent = favorite.nom_produit;
 
         const productImg = document.createElement("img");
         productImg.src = favorite.img_produit;
-
+        productDiv.appendChild(bin);
         productDiv.appendChild(productName);
         productDiv.appendChild(productImg);
-
+        productDiv.addEventListener("click", () => {
+          removeFavorite(favorite.id);
+        });
         productFavoriteDiv.appendChild(productDiv);
       });
     })
@@ -40,30 +45,5 @@ if (userIdCookie) {
   displayFavorite(userIdCookie, productFavoriteDiv);
 }
 
-// supprimer
-
-function removeFavorite(productID) {
-  const userIdCookie = getCookie("user_id");
-
-  if (userIdCookie) {
-    fetch(
-      `http://127.0.0.1:8001/delete_favorite_from_user/${userIdCookie}/${productID}`,
-      {
-        method: "DELETE",
-      }
-    )
-      .then((response) => {
-        if (response.ok) {
-          console.log("Produit supprimé des favoris avec succès !");
-          window.location.reload();
-        } else {
-          console.error("Erreur lors de la suppression des favoris");
-        }
-      })
-      .catch((error) => {
-        console.error("Erreur lors de la requête  : " + error);
-      });
-  } else {
-    console.error("L'ID de l'utilisateur n'a pas été trouvé dans le cookie.");
-  }
-}
+// delete product
+const bin = getElementById;

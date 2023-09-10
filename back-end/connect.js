@@ -33,7 +33,7 @@ var server = app.listen(8001, "127.0.0.1", function () {
 // Endpoints
 function connexion_database_and_execute_query(query, req, res, values) {
   const client = new Client(pgConfig);
-
+  console.log("la query est : " + query);
   client.connect(function (err) {
     if (err) {
       console.log("Error connecting to PostgreSQL:", err);
@@ -303,35 +303,25 @@ app.get("/get_aliment_by_id", (req, res) => {
 });
 //Favoris
 app.get("/favorite_table", function (req, res) {
-  const client = new Client(pgConfig);
-  client.connect(function (err) {
-    if (err) {
-      console.log("Error connecting to PostgreSQL:", err);
-      res.status(500).send("Error connecting to database");
-    } else {
-      console.log("Connected to database!");
-
-      const query = `
+  const action = req.query.action;
+  console.log("action est " + action);
+  if (action === "delete") {
+    console.log("coucou 1");
+    query = `DROP TABLE IF EXISTS favorite;
+    `;
+  } else if (action === "create") {
+    console.log("coucou 2");
+    query = `
   CREATE TABLE IF NOT EXISTS favorite (
     id SERIAL PRIMARY KEY,
     id_user INT,
     id_aliment INT,
     FOREIGN KEY (id_user) REFERENCES manage_user(id),
-    FOREIGN KEY (id_aliment) REFERENCES aliments(id),
-    nom_produit VARCHAR(50000) DEFAULT(NULL)
-  );
-`;
-      client.query(query, function (err, result) {
-        if (err) {
-          console.log("Error executing query:", err);
-          res.status(500).send("Error executing query");
-        } else {
-          res.json(result.rows);
-        }
-        client.end(); // Close the connection
-      });
-    }
-  });
+    FOREIGN KEY (id_aliment) REFERENCES aliments(id)
+    );`;
+  }
+  const values = "";
+  connexion_database_and_execute_query(query, req, res, values);
 });
 
 //endpoint get all favorite by user
@@ -358,6 +348,7 @@ app.delete(
     const query = `
   DELETE FROM favorite WHERE id_user = $1 AND id_aliment = $2
 `;
+    console.log("on passe dans le delete");
     const values = [id_user, id_aliment];
     connexion_database_and_execute_query(query, req, res, values);
   }

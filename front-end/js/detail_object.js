@@ -13,11 +13,7 @@ function get_detail_product(id) {
         const titleProduct = document.createElement("h2");
         const nutriscoreContainer = document.createElement("div");
         nutriscoreContainer.classList.add("nutriscore-container");
-        const nutriscoreA = document.createElement("p");
-        const nutriscoreB = document.createElement("p");
-        const nutriscoreC = document.createElement("p");
-        const nutriscoreD = document.createElement("p");
-        const nutriscoreE = document.createElement("p");
+        const nutriscore = document.createElement("p");
         const nutritionalTable = document.createElement("table");
 
         titleProduct.textContent =
@@ -51,77 +47,6 @@ function get_detail_product(id) {
           etoile.classList.toggle("fa-solid");
           etoile.classList.toggle("favorite-filled");
         });
-        function getCookie(cookieName) {
-          const cookies = document.cookie.split("; ");
-          for (const cookie of cookies) {
-            const [name, value] = cookie.split("=");
-            if (name === cookieName) {
-              return value;
-            }
-          }
-          return null;
-        }
-
-        //AJOUT AUX FAVORIS
-        function addToFavorites(productID, productFavoriteDiv) {
-          const userIdCookie = getCookie("user_id");
-
-          if (userIdCookie) {
-            fetch("http://127.0.0.1:8001/add_favorite_to_user", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                id_user: userIdCookie,
-                id_aliment: productID,
-              }),
-            })
-              .then((response) => {
-                if (response.ok) {
-                  console.log("Produit ajouté aux favoris avec succès !");
-                } else {
-                  console.error("Erreur lors de l'ajout aux favoris");
-                }
-              })
-              .catch((error) => {
-                console.error("Erreur lors de la requête: " + error);
-              });
-          } else {
-            console.error(
-              "L'ID de l'utilisateur n'a pas été trouvé dans le cookie."
-            );
-          }
-        }
-
-        //SUPPRIMER DES FAVORIS
-        function removeFavorite(productID) {
-          const userIdCookie = getCookie("user_id");
-
-          if (userIdCookie) {
-            fetch(
-              `http://127.0.0.1:8001/delete_favorite_from_user/${userIdCookie}/${productID}`,
-              {
-                method: "DELETE",
-              }
-            )
-              .then((response) => {
-                if (response.ok) {
-                  console.log("Produit supprimé des favoris avec succès !");
-                  window.location.reload();
-                } else {
-                  console.error("Erreur lors de la suppression des favoris");
-                }
-              })
-              .catch((error) => {
-                console.error("Erreur lors de la requête  : " + error);
-              });
-          } else {
-            console.error(
-              "L'ID de l'utilisateur n'a pas été trouvé dans le cookie."
-            );
-          }
-        }
 
         const detailsProduct = document.createElement("div");
         const nomProduit = document.createElement("p");
@@ -161,18 +86,6 @@ function get_detail_product(id) {
           "Nutriscore: " + element.nutriscore.toUpperCase();
         var nutriscoreElement = null;
 
-        if (element.nutriscore === "A") {
-          nutriscoreElement = document.getElementById("nutriscore-A");
-        } else if (element.nutriscore === "B") {
-          nutriscoreElement = document.getElementById("nutriscore-B");
-        } else if (element.nutriscore === "C") {
-          nutriscoreElement = document.getElementById("nutriscore-C");
-        } else if (element.nutriscore === "D") {
-          nutriscoreElement = document.getElementById("nutriscore-D");
-        } else if (element.nutriscore === "E") {
-          nutriscoreElement = document.getElementById("nutriscore-E");
-        }
-
         var allNutriScoreElements = document.querySelectorAll("#nutriscore p");
         allNutriScoreElements.forEach(function (element) {
           element.style.display = "none";
@@ -181,16 +94,12 @@ function get_detail_product(id) {
         if (nutriscoreElement) {
           nutriscoreElement.style.display = "block";
         }
-        nutriscoreContainer.appendChild(nutriscoreA);
-        nutriscoreContainer.appendChild(nutriscoreB);
-        nutriscoreContainer.appendChild(nutriscoreC);
-        nutriscoreContainer.appendChild(nutriscoreD);
-        nutriscoreContainer.appendChild(nutriscoreE);
-        nutriscoreA.classList.add("nutriscore-A");
-        nutriscoreB.classList.add("nutriscore-B");
-        nutriscoreC.classList.add("nutriscore-C");
-        nutriscoreD.classList.add("nutriscore-D");
-        nutriscoreE.classList.add("nutriscore-E");
+        nutriscoreContainer.appendChild(nutriscore);
+
+        nutriscore.classList.add(
+          "nutriscore-" + element.nutriscore.toUpperCase()
+        );
+
         const tableHeader = ["Nutriment", "Quantités en grammes"];
         const headerRow = document.createElement("tr");
         tableHeader.forEach((headerText) => {
@@ -234,4 +143,70 @@ function get_detail_product(id) {
       });
     })
     .catch((err) => console.error(err));
+}
+function getCookie(cookieName) {
+  const cookies = document.cookie.split("; ");
+  for (const cookie of cookies) {
+    const [name, value] = cookie.split("=");
+    if (name === cookieName) {
+      return value;
+    }
+  }
+  return null;
+}
+//AJOUT AUX FAVORIS
+function addToFavorites(productID, productFavoriteDiv) {
+  const userIdCookie = getCookie("user_id");
+
+  if (userIdCookie) {
+    fetch("http://127.0.0.1:8001/add_favorite_to_user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id_user: userIdCookie,
+        id_aliment: productID,
+      }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log("Produit ajouté aux favoris avec succès !");
+        } else {
+          console.error("Erreur lors de l'ajout aux favoris");
+        }
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la requête: " + error);
+      });
+  } else {
+    console.error("L'ID de l'utilisateur n'a pas été trouvé dans le cookie.");
+  }
+}
+
+// SUPPRIMER DES FAVORIS
+function removeFavorite(productID) {
+  const userIdCookie = getCookie("user_id");
+
+  if (userIdCookie) {
+    fetch(
+      `http://127.0.0.1:8001/delete_favorite_from_user/${userIdCookie}/${productID}`,
+      {
+        method: "DELETE",
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          console.log("Produit supprimé des favoris avec succès !");
+          window.location.reload();
+        } else {
+          console.error("Erreur lors de la suppression des favoris");
+        }
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la requête  : " + error);
+      });
+  } else {
+    console.error("L'ID de l'utilisateur n'a pas été trouvé dans le cookie.");
+  }
 }
