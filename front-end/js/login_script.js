@@ -65,7 +65,6 @@ function getCookie(name) {
   return decodeURI(dc.substring(begin + prefix.length, end));
 }
 function displayHeader() {
-  console.log("cc");
   var myCookie = getCookie("user_id");
 
   if (myCookie == null) {

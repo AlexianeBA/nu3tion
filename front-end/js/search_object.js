@@ -5,6 +5,17 @@ btnSearch.addEventListener("click", () => {
   window.location.href = "liste.html?search=" + encodeURIComponent(searchInput);
 });
 
+const search = document.getElementById("searchInput");
+search.addEventListener("keyup", (event) => {
+  if (event.code === "Enter") {
+    console.log("Touche Entrée pressée");
+
+    const searchInput = document.getElementById("searchInput").value;
+    window.location.href =
+      "liste.html?search=" + encodeURIComponent(searchInput);
+  }
+});
+
 const listeProducts = document.getElementById("listeProducts");
 const productContainer = document.getElementById("product-container");
 
@@ -45,3 +56,5 @@ fetch("http://127.0.0.1:8001/get_aliment_by_name?nom_produit=" + searchInput)
     });
   })
   .catch((err) => console.error(err));
+
+let prevScrollPos = window.pageYOffset;
